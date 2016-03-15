@@ -1,0 +1,24 @@
+﻿@using HONGLI.Entity 
+
+@helper GetInsuranceLogoUrl(EnumInsuranceLogo logo)
+{
+    var logoUrl = "";
+    switch (logo)
+    {
+        case EnumInsuranceLogo.PICC:
+            logoUrl = "../public/imagesTemp/page40-1.png";
+            break;
+        case EnumInsuranceLogo.PINGAN:
+            logoUrl = "../public/imagesTemp/page40-2.png";
+            break;
+        case EnumInsuranceLogo.TAIPING:
+            logoUrl = "../public/imagesTemp/page40-3.png";
+            break;        
+        default:
+            logoUrl = "";
+            break;
+    }
+    @:@logoUrl
+}
+   
+ 

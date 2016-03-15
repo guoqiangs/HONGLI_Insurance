@@ -1,0 +1,284 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>填写并核对订单信息</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta content="portrait" name="screen-orientation" />
+    <meta content="portrait" name="x5-orientation" />
+    <link rel="stylesheet" type="text/css" href="../public/css/all.css">
+    <script src="../public/js/base.js"></script>
+</head>
+<body>
+    <div class="f-nav">
+        <h2>填写并核对订单信息</h2>
+        <div class="f-nav-back">
+            <a href="javascript:;" id="riaGoBack"><i></i></a>
+        </div>
+    </div>
+    <div class="f-nav-extend">&nbsp;</div>
+    <div class="page20-address">
+        <div class="page20-address-empty" id="deliverEmpty">
+            <a href="#"></a>
+        </div>
+        <div class="f-list01" style="display:none;" id="deliverAddress">
+            <div class="f-list01-main">
+                <p class="t-p1">
+                    <span class="t-name"></span>
+                    <span class="t-mobile"></span>
+                </p>
+                <p class="t-p2"></p>
+            </div>
+            <div class="f-list01-go"><a href="#" class="f-list01-icon-arrow"></a></div>
+        </div>
+    </div>
+    <div class="page20-form">
+        <div class="f-form01-item" id="product">
+            <label class="f-form01-label">
+                <img id="product-isuranceLogoUrl" src="">
+            </label>
+            <div class="f-form01-main">
+                <p class="t-24" id="product-title"></p>
+                <p class="t-money01"><i id="product-dealPrice">￥</i><del id="product-originalPrice">￥</del></p>
+            </div>
+            <div class="f-list01-go"><a href="#" class="f-list01-icon-arrow"></a></div>
+        </div>
+        <div class="f-form01-item">
+            <label class="f-form01-label">被保人信息</label>
+            <div class="f-form01-main t-30" >
+                <div style="display:none;" id="policyHolder">
+                    <p id="policyHolder-name">被保人：</p>
+                    <p id="policyHolder-idcard">身份证：</p>
+                </div>               
+            </div>
+            <div class="f-list01-go"><a href="#" class="f-list01-icon-arrow"></a></div>
+        </div>
+        <div class="f-form01-item">
+            <label class="f-form01-label">发票信息</label>
+            <div class="f-form01-main t-30">
+                <div style="display:none;" id="invoice"></div>                
+            </div>
+            <div class="f-list01-go"><a href="#" class="f-list01-icon-arrow"></a></div>
+        </div>
+       
+        
+        <div class="f-form01-item" id="payAndDeliverEmpty">
+            <label class="f-form01-label">支付配送</label>
+            <div class="f-form01-main">
+            </div>
+            <div class="f-list01-go"><a href="#" class="f-list01-icon-arrow"></a></div>
+        </div>
+        <div id="payAndDeliver" style="display:none;">
+            <div class="f-form01-item">
+                <label class="f-form01-label">支付方式</label>
+                <div class="f-form01-main">在线支付</div>
+            </div>
+            <div class="f-form01-item">
+                <label class="f-form01-label">配送信息</label>
+                <div class="f-form01-main" id="payAndDeliver-viewText">预计2016年1月5日送达</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="page20-money01">
+        <p><span id="order-productPrice">￥</span>保费总额：</p>
+        <p><span id="order-deliverPrice">￥</span>运费：</p>
+    </div>
+    <div class="page20-submit">
+        <a href="#" class="f-button02" onclick="javascript:orderSubmit()">提交订单</a>
+        <div>应付金额：<span id="order-totalPrice">￥</span></div>
+    </div>
+    <div class="page20-submit-fixed-extend"></div>
+    <script src="../public/3rdLibs/jquery/jquery-2.1.3.min.js"></script>
+    <script src="../public/js/all.js"></script>
+
+    
+    <script src="~/Scripts/hongli.common.tools.js"></script>
+    <script src="~/Scripts/hongli.global.data.js"></script>
+   
+
+    <script>
+
+        function getIsuranceLogoUrl(logo)
+        {
+            var logoUrl = "";
+            switch (logo)
+            {
+                case 1:
+                    logoUrl = "../public/imagesTemp/page40-1.png";
+                    break;
+                case 2:
+                    logoUrl = "../public/imagesTemp/page40-2.png";
+                    break;
+                case 3:
+                    logoUrl = "../public/imagesTemp/page40-3.png";
+                    break;
+                default:
+                    logoUrl = "";
+                    break;
+            }
+            return logoUrl;
+        }
+                 
+        //var order_deliver_str = "";
+        //common.cookie.setCookie(global.domain, global.cookie.order.deliver, order_deliver_str, global.expire);
+       
+        //var order_payAndDeliver_str = "";
+        //common.cookie.setCookie(global.domain, global.cookie.order.payAndDeliver, order_payAndDeliver_str, global.expire);
+        
+        var order_invoice_str = "";
+        common.cookie.setCookie(global.domain, global.cookie.order.invoice, order_invoice_str, global.expire);
+        
+        var order_policyHolder_str = "";
+        common.cookie.setCookie(global.domain, global.cookie.order.policyHolder, order_policyHolder_str, global.expire);
+
+        
+
+
+        //产品
+        var productCookieValue = common.cookie.getCookie(global.cookie.order.product);
+        if (productCookieValue != null && productCookieValue != "")
+        {
+            var order_product_json = $.parseJSON(productCookieValue);
+            if (order_product_json != null) {
+
+                $("#product-isuranceLogoUrl").attr("src", getIsuranceLogoUrl(order_product_json.isuranceLogo));
+                $("#product-title").html(order_product_json.title);
+                $("#product-dealPrice").html("￥" + order_product_json.dealPrice);
+                $("#product-originalPrice").html("￥" + order_product_json.originalPrice);
+
+                $("#order-productPrice").html("￥" + order_product_json.dealPrice);
+            }
+            else {
+                //TODO by guoqiangs
+                alert("保险产品信息异常");
+            }
+        }
+
+
+
+        //配送地址
+        var deliverCookieValue = common.cookie.getCookie(global.cookie.order.deliver);
+        if (deliverCookieValue != null && deliverCookieValue != "") {
+            var order_deliver_json = $.parseJSON(deliverCookieValue);
+            $("#deliverAddress").find(".t-name").html(order_deliver_json.deliverName);
+            $("#deliverAddress").find(".t-mobile").html(order_deliver_json.deliverMobile);
+            $("#deliverAddress").find(".t-p2").html(order_deliver_json.deliverAddress);
+            $("#deliverAddress").show();
+
+            $("#deliverEmpty").hide();
+
+        }
+
+        //被保人
+        var policyHolderCookieValue = common.cookie.getCookie(global.cookie.order.policyHolder);
+        if (policyHolderCookieValue != null && policyHolderCookieValue !="") {
+            var order_policyHolder_json = $.parseJSON(policyHolderCookieValue);
+            $("#policyHolder-name").html("被保人：" + order_policyHolder_json.name);
+            $("#policyHolder-idcard").html("身份证：" + order_policyHolder_json.idcard);
+            $("#policyHolder").show();
+        }
+
+        //发票
+        var invoiceCookieValue = common.cookie.getCookie(global.cookie.order.invoice);
+        if (invoiceCookieValue != null && invoiceCookieValue != "")
+        {
+            var order_invoice_json = $.parseJSON(invoiceCookieValue);
+            $("#invoice").html(order_invoice_json.invoiceTitle).show();
+        }
+
+        //支付配送
+        var payAndDeliverCookieValue = common.cookie.getCookie(global.cookie.order.payAndDeliver);
+        if (payAndDeliverCookieValue != null && payAndDeliverCookieValue !="") {
+            var order_payAndDeliver_json = $.parseJSON(payAndDeliverCookieValue);
+            $("#payAndDeliverEmpty").hide();
+
+            if (order_payAndDeliver_json.deliverType == 2) {//自取
+                $("#payAndDeliver-viewText").html("自取时间：" + order_payAndDeliver_json.selfTakeDate);
+            } else {                
+                var now = new Date();
+                var year = now.getFullYear();//获取完整的年份(4位,1970-????)
+                var month = now.getMonth() + 1;//获取当前月份(0-11,0代表1月)
+                var day = now.getDate() + 3; //获取当前日(1-31)
+                $("#payAndDeliver-viewText").html("预计" + year + "年" + month + "月" + day + "日" + "送达");
+            }
+
+            $("#order-deliverPrice").html("￥" + order_payAndDeliver_json.deliverPrice);
+
+            $("#payAndDeliver").show();
+
+        }
+
+
+        //最终价格=产品价格+配送费
+        if (order_product_json.dealPrice != null && order_payAndDeliver_json.deliverPrice != null) {
+            var totalPrice = parseFloat(order_product_json.dealPrice) + parseFloat(order_payAndDeliver_json.deliverPrice);
+            $("#order-totalPrice").html("￥" + totalPrice);
+        }
+
+
+
+
+
+    </script>
+
+    <script>
+        
+        function orderSubmit() {
+            
+            if (order_product_json == null){
+                alert("产品信息异常");
+                return false;
+            }
+            if (order_policyHolder_json == null) {
+                alert("请填写被保人信息");
+                return false;
+            }
+            if (order_invoice_json == null){
+                alert("请填写发票信息");
+                return false;
+            }
+            if (order_payAndDeliver_json != null) {
+                alert("请填写支付配送信息");
+                return false;
+            }
+            if (order_payAndDeliver_json.deliverType == 1 && order_deliver_json == null){
+                alert("请填写配送地址");
+                return false;
+            }
+
+
+
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("Submit")",
+                data: { product: order_product_json, invoice: order_invoice_json,payAndDeliver:order_payAndDeliver_json, deliver: order_deliver_json, policyHolder: order_policyHolder_json },
+                cache: false,
+                beforeSend: function (xhr) {
+                },
+                success: function (response) {
+                    if (response.Status == 1) {
+                        var ordercode = response.Data;
+                        var url = "@Url.Action("Detail")?code=" + ordercode;
+                        window.location.href = url;
+                    }
+                    else {
+                        alert("error");
+                    }
+                },
+                error: function (xml, status) {
+                    alert(xml.responseText);
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>

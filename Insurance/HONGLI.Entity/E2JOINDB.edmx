@@ -1,0 +1,857 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="E2JOINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="ProvinceId" Type="int" />
+          <Property Name="SortIndex" Type="int" />
+        </EntityType>
+        <EntityType Name="Insured">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" />
+          <Property Name="CredentialType" Type="int" />
+          <Property Name="CredentialNumber" Type="nvarchar" MaxLength="64" />
+          <Property Name="PositiveImageUrl" Type="nvarchar" MaxLength="256" />
+          <Property Name="NegativeImageUrl" Type="nvarchar" MaxLength="256" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Order_Base">
+          <Key>
+            <PropertyRef Name="OrderCode" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="AmountPayable" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaidAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PayTime" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="TradeNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Channel" Type="int" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" />
+          <Property Name="InvoiceType" Type="int" />
+          <Property Name="InvoiceTitle" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Order_Deliver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderCode" Type="varchar" MaxLength="100" />
+          <Property Name="DeliverType" Type="int" />
+          <Property Name="DeliverAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="DeliverTime" Type="datetime" />
+          <Property Name="DeliverPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DeliverName" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="DeliverMobile" Type="varchar" MaxLength="50" />
+          <Property Name="DeliverDistrictCode" Type="varchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Order_Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderCode" Type="varchar" MaxLength="100" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ProductId" Type="varchar" MaxLength="50" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" />
+          <Property Name="ProductTitle" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProductOriginalPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ProductDealPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Channel" Type="int" />
+          <Property Name="InsuranceLogo" Type="int" />
+          <Property Name="LicenseNo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Order_Pay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderCode" Type="varchar" MaxLength="100" />
+          <Property Name="PayType" Type="int" />
+          <Property Name="PayBank" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Order_PolicyHolder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderCode" Type="varchar" MaxLength="100" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="IdCardType" Type="int" />
+          <Property Name="IdCard" Type="varchar" MaxLength="50" />
+          <Property Name="IdCardFacePicUrl" Type="varchar" MaxLength="100" />
+          <Property Name="IdCardBackPicUrl" Type="varchar" MaxLength="100" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Product_CommercialCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Memo" Type="varchar" MaxLength="500" />
+          <Property Name="MainMark" Type="tinyint" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Product_Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="Memo" Type="varchar" MaxLength="500" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Product_Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LicenseNo" Type="varchar" MaxLength="50" />
+          <Property Name="BrandModel" Type="varchar" MaxLength="100" />
+          <Property Name="TrafficCompulsoryInsurance" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTax" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="CompanyId" Type="int" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="64" />
+          <Property Name="SortIndex" Type="int" />
+        </EntityType>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrafficCompulsoryInsurance" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTax" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="CommercialInsurance" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="DamageInsurance" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="ThirdpartyLiabilityInsurance" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="SeatInsuranceDirver" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="SeatInsurancePassenger" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TheftInsurance" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="CheckStatus" Type="tinyint" />
+          <Property Name="CheckContent" Type="varchar" MaxLength="500" />
+          <Property Name="CommercialInsuranceRate" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="CommercialInsuranceRateAmount" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TrafficCompulsoryInsuranceRate" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TrafficCompulsoryInsuranceRateAmount" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTaxRate" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTaxRateAmount" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="SaveAmount" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="Amount" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="CouponAmount" Type="decimal" Precision="2" Scale="0" />
+          <Property Name="Memo" Type="text" />
+        </EntityType>
+        <EntityType Name="User_Deliver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliverType" Type="int" />
+          <Property Name="DeliverAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="DeliverTime" Type="datetime" />
+          <Property Name="DeliverPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DeliverName" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="DeliverMobile" Type="varchar" MaxLength="50" />
+          <Property Name="DeliverLocation" Type="varchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="User_Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Context" Type="nvarchar" MaxLength="256" />
+          <Property Name="Type" Type="bit" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="User_PolicyHolder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
+          <Property Name="IdCardType" Type="int" />
+          <Property Name="IdCard" Type="varchar" MaxLength="64" />
+          <Property Name="IdCardFacePicUrl" Type="varchar" MaxLength="512" />
+          <Property Name="IdCardBackPicUrl" Type="varchar" MaxLength="512" />
+          <Property Name="OrganizationCode" Type="varchar" MaxLength="64" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__City__ProvinceId__151B244E">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="ProvinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Deliver_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_Deliver" Type="Self.Order_Deliver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_Deliver">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Item_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_Item" Type="Self.Order_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_Item">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Pay_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_Pay" Type="Self.Order_Pay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_Pay">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_PolicyHolder_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_PolicyHolder" Type="Self.Order_PolicyHolder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_PolicyHolder">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="E2JOINModelStoreContainer">
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Insured" EntityType="Self.Insured" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Base" EntityType="Self.Order_Base" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Deliver" EntityType="Self.Order_Deliver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Item" EntityType="Self.Order_Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Pay" EntityType="Self.Order_Pay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_PolicyHolder" EntityType="Self.Order_PolicyHolder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_CommercialCategory" EntityType="Self.Product_CommercialCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Company" EntityType="Self.Product_Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Product" EntityType="Self.Product_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Deliver" EntityType="Self.User_Deliver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Invoice" EntityType="Self.User_Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_PolicyHolder" EntityType="Self.User_PolicyHolder" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__City__ProvinceId__151B244E" Association="Self.FK__City__ProvinceId__151B244E">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Deliver_Order_Base" Association="Self.FK_Order_Deliver_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_Deliver" EntitySet="Order_Deliver" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Item_Order_Base" Association="Self.FK_Order_Item_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_Item" EntitySet="Order_Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Pay_Order_Base" Association="Self.FK_Order_Pay_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_Pay" EntitySet="Order_Pay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_PolicyHolder_Order_Base" Association="Self.FK_Order_PolicyHolder_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_PolicyHolder" EntitySet="Order_PolicyHolder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="E2JOINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Order_Base">
+          <Key>
+            <PropertyRef Name="OrderCode" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="AmountPayable" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaidAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PayTime" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="TradeNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Channel" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order_Deliver" Relationship="Self.FK_Order_Deliver_Order_Base" FromRole="Order_Base" ToRole="Order_Deliver" />
+          <NavigationProperty Name="Order_Pay" Relationship="Self.FK_Order_Pay_Order_Base" FromRole="Order_Base" ToRole="Order_Pay" />
+          <NavigationProperty Name="Order_PolicyHolder" Relationship="Self.FK_Order_PolicyHolder_Order_Base" FromRole="Order_Base" ToRole="Order_PolicyHolder" />
+          <Property Name="InvoiceTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceType" Type="Int32" />
+          <NavigationProperty Name="Order_Item" Relationship="E2JOINModel.FK_Order_Item_Order_Base" FromRole="Order_Base" ToRole="Order_Item" />
+        </EntityType>
+        <EntityType Name="Order_Deliver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeliverType" Type="Int32" />
+          <Property Name="DeliverAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DeliverTime" Type="DateTime" Precision="3" />
+          <Property Name="DeliverPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DeliverName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order_Base" Relationship="Self.FK_Order_Deliver_Order_Base" FromRole="Order_Deliver" ToRole="Order_Base" />
+          <Property Name="DeliverMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliverDistrictCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Order_Pay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PayType" Type="Int32" />
+          <Property Name="PayBank" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order_Base" Relationship="Self.FK_Order_Pay_Order_Base" FromRole="Order_Pay" ToRole="Order_Base" />
+        </EntityType>
+        <EntityType Name="Order_PolicyHolder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdCard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order_Base" Relationship="Self.FK_Order_PolicyHolder_Order_Base" FromRole="Order_PolicyHolder" ToRole="Order_Base" />
+          <Property Name="IdCardType" Type="Int32" />
+          <Property Name="IdCardFacePicUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdCardBackPicUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Order_Deliver_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_Deliver" Type="Self.Order_Deliver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_Deliver">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Pay_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_Pay" Type="Self.Order_Pay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_Pay">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_PolicyHolder_Order_Base">
+          <End Role="Order_Base" Type="Self.Order_Base" Multiplicity="0..1" />
+          <End Role="Order_PolicyHolder" Type="Self.Order_PolicyHolder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_PolicyHolder">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="E2JOINDB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Order_Base" EntityType="Self.Order_Base" />
+          <EntitySet Name="Order_Deliver" EntityType="Self.Order_Deliver" />
+          <EntitySet Name="Order_Pay" EntityType="Self.Order_Pay" />
+          <EntitySet Name="Order_PolicyHolder" EntityType="Self.Order_PolicyHolder" />
+          <AssociationSet Name="FK_Order_Deliver_Order_Base" Association="Self.FK_Order_Deliver_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_Deliver" EntitySet="Order_Deliver" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Pay_Order_Base" Association="Self.FK_Order_Pay_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_Pay" EntitySet="Order_Pay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_PolicyHolder_Order_Base" Association="Self.FK_Order_PolicyHolder_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_PolicyHolder" EntitySet="Order_PolicyHolder" />
+          </AssociationSet>
+          <EntitySet Name="Product_CommercialCategory" EntityType="E2JOINModel.Product_CommercialCategory" />
+          <EntitySet Name="Product_Company" EntityType="E2JOINModel.Product_Company" />
+          <EntitySet Name="Product_Product" EntityType="E2JOINModel.Product_Product" />
+          <EntitySet Name="Quote" EntityType="E2JOINModel.Quote" />
+          <EntitySet Name="Insured" EntityType="E2JOINModel.Insured" />
+          <EntitySet Name="City" EntityType="E2JOINModel.City" />
+          <EntitySet Name="Province" EntityType="E2JOINModel.Province" />
+          <AssociationSet Name="FK__City__ProvinceId__151B244E" Association="E2JOINModel.FK__City__ProvinceId__151B244E">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <EntitySet Name="User_Deliver" EntityType="E2JOINModel.User_Deliver" />
+          <EntitySet Name="User_Invoice" EntityType="E2JOINModel.User_Invoice" />
+          <EntitySet Name="User_PolicyHolder" EntityType="E2JOINModel.User_PolicyHolder" />
+          <EntitySet Name="Order_Item" EntityType="E2JOINModel.Order_Item" />
+          <AssociationSet Name="FK_Order_Item_Order_Base" Association="E2JOINModel.FK_Order_Item_Order_Base">
+            <End Role="Order_Base" EntitySet="Order_Base" />
+            <End Role="Order_Item" EntitySet="Order_Item" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Product_CommercialCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Memo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MainMark" Type="Byte" />
+          <Property Name="Status" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Product_Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Memo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Product_Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LicenseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BrandModel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TrafficCompulsoryInsurance" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTax" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="CompanyId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrafficCompulsoryInsurance" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTax" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="CommercialInsurance" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="DamageInsurance" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="ThirdpartyLiabilityInsurance" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="SeatInsuranceDirver" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="SeatInsurancePassenger" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TheftInsurance" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="CheckStatus" Type="Byte" />
+          <Property Name="CheckContent" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CommercialInsuranceRate" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="CommercialInsuranceRateAmount" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TrafficCompulsoryInsuranceRate" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TrafficCompulsoryInsuranceRateAmount" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTaxRate" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TravelTaxRateAmount" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="SaveAmount" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="Amount" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="CouponAmount" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="Memo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Insured">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CredentialType" Type="Int32" />
+          <Property Name="CredentialNumber" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="PositiveImageUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NegativeImageUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProvinceId" Type="Int32" />
+          <Property Name="SortIndex" Type="Int32" />
+          <NavigationProperty Name="Province" Relationship="E2JOINModel.FK__City__ProvinceId__151B244E" FromRole="City" ToRole="Province" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="SortIndex" Type="Int32" />
+          <NavigationProperty Name="City" Relationship="E2JOINModel.FK__City__ProvinceId__151B244E" FromRole="Province" ToRole="City" />
+        </EntityType>
+        <Association Name="FK__City__ProvinceId__151B244E">
+          <End Type="E2JOINModel.Province" Role="Province" Multiplicity="0..1" />
+          <End Type="E2JOINModel.City" Role="City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="ProvinceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User_Deliver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliverType" Type="Int32" />
+          <Property Name="DeliverAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DeliverTime" Type="DateTime" Precision="3" />
+          <Property Name="DeliverPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DeliverName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="DeliverMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliverLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User_Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Context" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Boolean" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User_PolicyHolder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="IdCardType" Type="Int32" />
+          <Property Name="IdCard" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="IdCardFacePicUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="IdCardBackPicUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="OrganizationCode" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Order_Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ProductId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProductOriginalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ProductDealPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Channel" Type="Int32" />
+          <Property Name="InsuranceLogo" Type="Int32" />
+          <Property Name="LicenseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order_Base" Relationship="E2JOINModel.FK_Order_Item_Order_Base" FromRole="Order_Item" ToRole="Order_Base" />
+        </EntityType>
+        <Association Name="FK_Order_Item_Order_Base">
+          <End Type="E2JOINModel.Order_Base" Role="Order_Base" Multiplicity="0..1" />
+          <End Type="E2JOINModel.Order_Item" Role="Order_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_Base">
+              <PropertyRef Name="OrderCode" />
+            </Principal>
+            <Dependent Role="Order_Item">
+              <PropertyRef Name="OrderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="E2JOINModelStoreContainer" CdmEntityContainer="E2JOINDB">
+          <EntitySetMapping Name="Order_Base">
+            <EntityTypeMapping TypeName="E2JOINModel.Order_Base">
+              <MappingFragment StoreEntitySet="Order_Base">
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="InvoiceTitle" ColumnName="InvoiceTitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="AmountPayable" ColumnName="AmountPayable" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="PayTime" ColumnName="PayTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TradeNo" ColumnName="TradeNo" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Deliver">
+            <EntityTypeMapping TypeName="E2JOINModel.Order_Deliver">
+              <MappingFragment StoreEntitySet="Order_Deliver">
+                <ScalarProperty Name="DeliverDistrictCode" ColumnName="DeliverDistrictCode" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DeliverMobile" ColumnName="DeliverMobile" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="DeliverType" ColumnName="DeliverType" />
+                <ScalarProperty Name="DeliverAddress" ColumnName="DeliverAddress" />
+                <ScalarProperty Name="DeliverTime" ColumnName="DeliverTime" />
+                <ScalarProperty Name="DeliverPrice" ColumnName="DeliverPrice" />
+                <ScalarProperty Name="DeliverName" ColumnName="DeliverName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Pay">
+            <EntityTypeMapping TypeName="E2JOINModel.Order_Pay">
+              <MappingFragment StoreEntitySet="Order_Pay">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="PayType" ColumnName="PayType" />
+                <ScalarProperty Name="PayBank" ColumnName="PayBank" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_PolicyHolder">
+            <EntityTypeMapping TypeName="E2JOINModel.Order_PolicyHolder">
+              <MappingFragment StoreEntitySet="Order_PolicyHolder">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IdCardBackPicUrl" ColumnName="IdCardBackPicUrl" />
+                <ScalarProperty Name="IdCardFacePicUrl" ColumnName="IdCardFacePicUrl" />
+                <ScalarProperty Name="IdCardType" ColumnName="IdCardType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_CommercialCategory">
+            <EntityTypeMapping TypeName="E2JOINModel.Product_CommercialCategory">
+              <MappingFragment StoreEntitySet="Product_CommercialCategory">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="MainMark" ColumnName="MainMark" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Company">
+            <EntityTypeMapping TypeName="E2JOINModel.Product_Company">
+              <MappingFragment StoreEntitySet="Product_Company">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Product">
+            <EntityTypeMapping TypeName="E2JOINModel.Product_Product">
+              <MappingFragment StoreEntitySet="Product_Product">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TravelTax" ColumnName="TravelTax" />
+                <ScalarProperty Name="TrafficCompulsoryInsurance" ColumnName="TrafficCompulsoryInsurance" />
+                <ScalarProperty Name="BrandModel" ColumnName="BrandModel" />
+                <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quote">
+            <EntityTypeMapping TypeName="E2JOINModel.Quote">
+              <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="CouponAmount" ColumnName="CouponAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="SaveAmount" ColumnName="SaveAmount" />
+                <ScalarProperty Name="TravelTaxRateAmount" ColumnName="TravelTaxRateAmount" />
+                <ScalarProperty Name="TravelTaxRate" ColumnName="TravelTaxRate" />
+                <ScalarProperty Name="TrafficCompulsoryInsuranceRateAmount" ColumnName="TrafficCompulsoryInsuranceRateAmount" />
+                <ScalarProperty Name="TrafficCompulsoryInsuranceRate" ColumnName="TrafficCompulsoryInsuranceRate" />
+                <ScalarProperty Name="CommercialInsuranceRateAmount" ColumnName="CommercialInsuranceRateAmount" />
+                <ScalarProperty Name="CommercialInsuranceRate" ColumnName="CommercialInsuranceRate" />
+                <ScalarProperty Name="CheckContent" ColumnName="CheckContent" />
+                <ScalarProperty Name="CheckStatus" ColumnName="CheckStatus" />
+                <ScalarProperty Name="TheftInsurance" ColumnName="TheftInsurance" />
+                <ScalarProperty Name="SeatInsurancePassenger" ColumnName="SeatInsurancePassenger" />
+                <ScalarProperty Name="SeatInsuranceDirver" ColumnName="SeatInsuranceDirver" />
+                <ScalarProperty Name="ThirdpartyLiabilityInsurance" ColumnName="ThirdpartyLiabilityInsurance" />
+                <ScalarProperty Name="DamageInsurance" ColumnName="DamageInsurance" />
+                <ScalarProperty Name="CommercialInsurance" ColumnName="CommercialInsurance" />
+                <ScalarProperty Name="TravelTax" ColumnName="TravelTax" />
+                <ScalarProperty Name="TrafficCompulsoryInsurance" ColumnName="TrafficCompulsoryInsurance" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Insured">
+            <EntityTypeMapping TypeName="E2JOINModel.Insured">
+              <MappingFragment StoreEntitySet="Insured">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="NegativeImageUrl" ColumnName="NegativeImageUrl" />
+                <ScalarProperty Name="PositiveImageUrl" ColumnName="PositiveImageUrl" />
+                <ScalarProperty Name="CredentialNumber" ColumnName="CredentialNumber" />
+                <ScalarProperty Name="CredentialType" ColumnName="CredentialType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="E2JOINModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+                <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Province">
+            <EntityTypeMapping TypeName="E2JOINModel.Province">
+              <MappingFragment StoreEntitySet="Province">
+                <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Deliver">
+            <EntityTypeMapping TypeName="E2JOINModel.User_Deliver">
+              <MappingFragment StoreEntitySet="User_Deliver">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DeliverLocation" ColumnName="DeliverLocation" />
+                <ScalarProperty Name="DeliverMobile" ColumnName="DeliverMobile" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="DeliverName" ColumnName="DeliverName" />
+                <ScalarProperty Name="DeliverPrice" ColumnName="DeliverPrice" />
+                <ScalarProperty Name="DeliverTime" ColumnName="DeliverTime" />
+                <ScalarProperty Name="DeliverAddress" ColumnName="DeliverAddress" />
+                <ScalarProperty Name="DeliverType" ColumnName="DeliverType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Invoice">
+            <EntityTypeMapping TypeName="E2JOINModel.User_Invoice">
+              <MappingFragment StoreEntitySet="User_Invoice">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_PolicyHolder">
+            <EntityTypeMapping TypeName="E2JOINModel.User_PolicyHolder">
+              <MappingFragment StoreEntitySet="User_PolicyHolder">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrganizationCode" ColumnName="OrganizationCode" />
+                <ScalarProperty Name="IdCardBackPicUrl" ColumnName="IdCardBackPicUrl" />
+                <ScalarProperty Name="IdCardFacePicUrl" ColumnName="IdCardFacePicUrl" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+                <ScalarProperty Name="IdCardType" ColumnName="IdCardType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Item">
+            <EntityTypeMapping TypeName="E2JOINModel.Order_Item">
+              <MappingFragment StoreEntitySet="Order_Item">
+                <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+                <ScalarProperty Name="InsuranceLogo" ColumnName="InsuranceLogo" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="ProductDealPrice" ColumnName="ProductDealPrice" />
+                <ScalarProperty Name="ProductOriginalPrice" ColumnName="ProductOriginalPrice" />
+                <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

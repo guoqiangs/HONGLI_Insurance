@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7973128969b74c108b6fd6ace76ed329" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="E2JOINModel.Order_Base" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="E2JOINModel.Order_Deliver" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="E2JOINModel.Order_Pay" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="E2JOINModel.Order_PolicyHolder" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <AssociationConnector Association="E2JOINModel.FK_Order_Deliver_Order_Base" ManuallyRouted="false" />
+        <AssociationConnector Association="E2JOINModel.FK_Order_Pay_Order_Base" ManuallyRouted="false" />
+        <AssociationConnector Association="E2JOINModel.FK_Order_PolicyHolder_Order_Base" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="E2JOINModel.Product_CommercialCategory" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="E2JOINModel.Product_Company" Width="1.5" PointX="7.375" PointY="6.75" />
+        <EntityTypeShape EntityType="E2JOINModel.Product_Product" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="E2JOINModel.Quote" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="E2JOINModel.Insured" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="E2JOINModel.City" Width="1.5" PointX="7.625" PointY="9.875" />
+        <EntityTypeShape EntityType="E2JOINModel.Province" Width="1.5" PointX="5.375" PointY="10" />
+        <AssociationConnector Association="E2JOINModel.FK__City__ProvinceId__151B244E" />
+        <EntityTypeShape EntityType="E2JOINModel.User_Deliver" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="E2JOINModel.User_Invoice" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="E2JOINModel.User_PolicyHolder" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="E2JOINModel.Order_Item" Width="1.5" PointX="3" PointY="13.125" />
+        <AssociationConnector Association="E2JOINModel.FK_Order_Item_Order_Base" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
